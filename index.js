@@ -9,7 +9,14 @@ app.get('/', (req, res) => {
 io.on('connection', (socket) => {
   socket.on('chat message', (msg) => {
     io.emit('chat message', msg);
-  });
+    io.emit('a user connected');
+    socket.on('disconnect', () => {
+    io.emit('user disconnected');
+    });
+    // socket.on('connection', (newUser) => {
+    // io.emit('connection', { newUser: 'chat message', anotherUser: 'someone joined' }); // This will emit the event to all connected sockets
+  // });
+});
 });
 
 http.listen(3000, () => {
